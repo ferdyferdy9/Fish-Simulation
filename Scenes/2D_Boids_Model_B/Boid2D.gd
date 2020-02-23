@@ -20,8 +20,7 @@ func _ready():
 func _process(_delta):
 	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
 	
-	if debug_mode:
-		update()
+	update()
 
 
 func _integrate_forces(state):

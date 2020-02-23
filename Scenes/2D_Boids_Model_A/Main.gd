@@ -8,6 +8,9 @@ var grid_size := 100
 var window_width = ProjectSettings.get_setting("display/window/size/width")
 var window_height = ProjectSettings.get_setting("display/window/size/height")
 
+var showPartition = false
+
+
 func _ready():
 	randomize()
 	
@@ -35,17 +38,6 @@ func _ready():
 
 
 func _physics_process(delta):
-	if Input.is_key_pressed(KEY_SPACE):
-		get_tree().reload_current_scene()
-	
-	if Input.is_key_pressed(KEY_RIGHT):
-		for b in boids:
-			b.vision_radius = clamp(b.vision_radius+1, 0, 360)
-			
-	if Input.is_key_pressed(KEY_LEFT):
-		for b in boids:
-			b.vision_radius = clamp(b.vision_radius-1, 0, 360)
-	
 	for x in grid.keys():
 		for y in grid[x].keys():
 			grid[x][y].clear()
@@ -69,14 +61,31 @@ func _physics_process(delta):
 
 func _process(delta):
 	update()
+	
+	if Input.is_key_pressed(KEY_Z):
+		showPartition = true
+	else:
+		showPartition = false
+	
+	if Input.is_key_pressed(KEY_SPACE):
+		get_tree().reload_current_scene()
+	
+	if Input.is_key_pressed(KEY_RIGHT):
+		for b in boids:
+			b.vision_radius = clamp(b.vision_radius+1, 0, 360)
+			
+	if Input.is_key_pressed(KEY_LEFT):
+		for b in boids:
+			b.vision_radius = clamp(b.vision_radius-1, 0, 360)
 
 
 func _draw():
-	for x in grid.keys():
-		for y in grid[x].keys():
-			var alpha = range_lerp(grid[x][y].size(),0, 10, 0, 1)
-			alpha = clamp(alpha, 0, 1)
-			
-			draw_rect(
-				Rect2(x*grid_size, y*grid_size, 100, 100), 
-				Color(1, 0.2, 0.2, alpha))
+	if showPartition:
+		for x in grid.keys():
+			for y in grid[x].keys():
+				var alpha = range_lerp(grid[x][y].size(),0, 10, 0, 1)
+				alpha = clamp(alpha, 0, 1)
+				
+				draw_rect(
+					Rect2(x*grid_size, y*grid_size, 100, 100), 
+					Color(1, 0.2, 0.2, alpha))
