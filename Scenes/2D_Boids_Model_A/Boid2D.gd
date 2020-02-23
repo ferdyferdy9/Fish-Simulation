@@ -2,7 +2,7 @@ extends Node2D
 
 export var max_speed:float = 8
 export var max_force:float = 0.2
-export var vision_dist: float = 200
+export var vision_dist: float = 100
 export var vision_radius: float = 270
 export var debug_mode: bool = true
 

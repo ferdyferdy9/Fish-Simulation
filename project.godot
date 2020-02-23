@@ -30,16 +30,18 @@ config/windows_native_icon="res://icon.ico"
 [debug]
 
 settings/stdout/print_fps=true
+gdscript/warnings/unsafe_property_access=true
 
 [display]
 
-window/size/width=2048
-window/size/height=1200
-window/size/test_width=1024
-window/size/test_height=600
+window/size/width=3840
+window/size/height=2160
+window/size/test_width=1280
+window/size/test_height=720
 window/stretch/mode="2d"
 window/stretch/aspect="keep_height"
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"

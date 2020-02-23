@@ -4,21 +4,21 @@ class_name Boid2D
 
 export var max_speed:float = 800
 export var max_force:float = 80
-export var vision_dist: float = 300
-export var vision_radius: float = 240
-export var debug_mode: bool = false
+export var debug_mode:bool = false
 
+var vision_dist: float
+var vision_radius: float = 240
 var window_width = ProjectSettings.get_setting("display/window/size/width")
-var window_height = ProjectSettings.get_setting("display/window/size/height")
-var friends
+var window_height = ProjectSettings.get_setting("display/window/size/height")\
 
+onready var sprite: Sprite = $Sprite
 
 func _ready():
 	pass
 
 
-func _process(delta):
-	$Sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
+func _process(_delta):
+	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
 	
 	if debug_mode:
 		update()
@@ -39,21 +39,31 @@ func _integrate_forces(state):
 		position.y = -50
 
 
-func _physics_process(delta):
+func behave(friends: Array):
 	if linear_velocity.length() > max_speed:
 		linear_velocity = linear_velocity.normalized() * max_speed
 	
+	var close_friends = []
+	for f in friends:
+		if checkVisionTrigger(f.position, vision_dist):
+			close_friends.append(f)
+	
+	var too_close_friends = []
+	for f in close_friends:
+		if (position - f.position).length() < vision_dist*0.5:
+			too_close_friends.append(f)
+	
 	var forces: Array = []
 	forces.append(0.1*keep_going())
-	forces.append(seperate(friends))
-	forces.append(align(friends))
-	forces.append(cohesion(friends))
+	forces.append(1.25*seperate(too_close_friends))
+	forces.append(align(close_friends))
+	forces.append(cohesion(close_friends))
 	
 	apply_force(forces)
 
 
 func apply_force(forces):
-	var total: Vector2
+	var total := Vector2()
 	
 	for f in forces:
 		total += f
@@ -88,19 +98,18 @@ func seek(target: Vector2):
 
 
 func seperate(group: Array):
-	var total_desire: Vector2
+	var total_desire := Vector2()
 	var count = 0
 	
 	for f in group:
 		if f == self:
 			continue
 		
-		if checkVisionTrigger(f.position, vision_dist*0.25):
-			var desired = position - f.position
-			total_desire += desired.normalized()
-			count += 1
+		var desired = position - f.position
+		total_desire += desired.normalized()
+		count += 1
 	
-	var force: Vector2
+	var force := Vector2()
 	
 	if count > 0:
 		force = total_desire*max_speed/count
@@ -111,18 +120,17 @@ func seperate(group: Array):
 
 
 func align(group: Array):
-	var total_desire: Vector2
+	var total_desire := Vector2()
 	var count = 0
 	
 	for f in group:
 		if f == self:
 			continue
 		
-		if checkVisionTrigger(f.position, vision_dist):
-			total_desire += f.linear_velocity.normalized()
-			count += 1
+		total_desire += f.linear_velocity.normalized()
+		count += 1
 	
-	var force: Vector2
+	var force := Vector2()
 	
 	if count > 0:
 		force = total_desire*max_speed/count - linear_velocity
@@ -133,18 +141,17 @@ func align(group: Array):
 
 
 func cohesion(group: Array):
-	var desired_pos: Vector2
+	var desired_pos := Vector2()
 	var count = 0
 	
 	for f in group:
 		if f == self:
 			continue
 		
-		if checkVisionTrigger(f.position, vision_dist*1.2):
-			desired_pos += f.position
-			count += 1
+		desired_pos += f.position
+		count += 1
 	
-	var force: Vector2
+	var force := Vector2()
 	
 	if count > 0:
 		force = seek(desired_pos/count)
@@ -156,11 +163,11 @@ func cohesion(group: Array):
 
 func _draw():
 	if debug_mode:
-		draw_line(Vector2(), linear_velocity*0.25, Color.white)
+		draw_line(Vector2(), linear_velocity*0.15, Color.white)
 		draw_circle_arc_poly(
 			Vector2(), vision_dist, 
-			$Sprite.rotation_degrees+90-vision_radius*0.5, 
-			$Sprite.rotation_degrees+90+vision_radius*0.5,
+			sprite.rotation_degrees+90-vision_radius*0.5, 
+			sprite.rotation_degrees+90+vision_radius*0.5,
 			Color(1,1,1,0.1))
 
 
