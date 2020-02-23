@@ -8,16 +8,32 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Boid2D",
+"language": "GDScript",
+} ]
 _global_script_class_icons={
-
+"Boid2D": ""
 }
 
 [application]
 
 config/name="Fish Simulation"
+run/main_scene="res://Scenes/2D_Boids_Model_B/Main.tscn"
+boot_splash/image="res://icon.png"
+boot_splash/fullsize=false
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
+
+[display]
+
+window/size/width=2048
+window/size/height=1200
+window/size/test_width=1024
+window/size/test_height=600
+window/stretch/mode="2d"
+window/stretch/aspect="keep_height"
 
 [rendering]
 

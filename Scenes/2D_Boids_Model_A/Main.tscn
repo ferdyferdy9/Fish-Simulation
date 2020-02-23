@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/2D_Boids_Model_A/Boid2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/2D_Boids_Model_A/Main.gd" type="Script" id=2]
+
+
+
+[node name="2D_Boids" type="Node2D"]
+script = ExtResource( 2 )
+boid_prototype = ExtResource( 1 )
