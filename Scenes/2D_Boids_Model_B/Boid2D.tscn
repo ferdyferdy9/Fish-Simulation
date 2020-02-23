@@ -20,3 +20,6 @@ script = ExtResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -9.68075, -9.28015, -9.68075, 9.60719, 9.05346, -0.0406685 )

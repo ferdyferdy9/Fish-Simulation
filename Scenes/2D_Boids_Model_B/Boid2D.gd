@@ -7,7 +7,7 @@ export var max_force:float = 80
 export var debug_mode:bool = false
 
 var vision_dist: float
-var vision_radius: float = 240
+var vision_radius: float = 100
 var window_width = ProjectSettings.get_setting("display/window/size/width")
 var window_height = ProjectSettings.get_setting("display/window/size/height")\
 

@@ -19,7 +19,7 @@ func _ready():
 		for y in range(-2, 2 + (window_height+100) / grid_size):
 			grid[x][y] = []
 	
-	for i in range(240):
+	for i in range(200):
 		var b:Boid2D = boid_prototype.instance()
 		
 		if i == 0:
@@ -87,5 +87,5 @@ func _draw():
 				alpha = clamp(alpha, 0, 1)
 				
 				draw_rect(
-					Rect2(x*grid_size, y*grid_size, 100, 100), 
+					Rect2(x*grid_size, y*grid_size, grid_size, grid_size), 
 					Color(1, 0.2, 0.2, alpha))
