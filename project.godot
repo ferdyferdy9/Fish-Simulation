@@ -12,6 +12,7 @@ _global_script_classes=[ {
 "base": "RigidBody2D",
 "class": "Boid2D",
 "language": "GDScript",
+"path": "res://Scenes/2D_Boids_Model_B/Boid2D.gd"
 } ]
 _global_script_class_icons={
 "Boid2D": ""
@@ -25,6 +26,10 @@ boot_splash/image="res://icon.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
+
+[debug]
+
+settings/stdout/print_fps=true
 
 [display]
 
